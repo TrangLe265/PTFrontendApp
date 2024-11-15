@@ -1,5 +1,24 @@
 import { parseISO, isValid, format } from 'date-fns';
-import { useState } from 'react';
+
+export const fetchCustomers = async() => {
+  try{
+    const response = await fetch('https://customer-rest-service-frontend-personaltrainer.2.rahtiapp.fi/api/customers'); 
+    const data = await response.json();
+    const customers = data._embedded.customers;
+    return customers
+  }
+  catch(error){
+    console.log('Error in fetching: ', error);
+    return [];
+  }
+}
+
+export const deleteCustomer = (url) => {
+    return fetch(url, {method: 'DELETE'})
+    .catch(err => console.error(err))
+}
+
+export const editCustomer = (id) => {}
 
 export const fetchTrainings = async() => {
     try {

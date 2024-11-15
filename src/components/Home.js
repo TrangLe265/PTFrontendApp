@@ -14,6 +14,8 @@ import Divider from '@mui/material/Divider';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
+
+
 export default function Home (){
     const menuItems = [
         { text: 'Customers', icon: <PeopleIcon />, introduction: 'All your customers’ contact info will be displayed here.' },

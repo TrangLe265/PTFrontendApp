@@ -9,17 +9,17 @@ import reportWebVitals from './reportWebVitals';
 
 provideGlobalGridOptions({
   defaultColDef: {
-    resizable: true,   // Makes columns resizable by default
-    filter: true,      // Enable filtering by default
-    sortable: true,    // Enable sorting by default
+    resizable: true,   
+    filter: true,      
+    sortable: true,   
     cellStyle: {
-      fontSize: '16px', // Default font size for cells
+      fontSize: '16px', 
     },
     headerClass: 'custom-header-class', 
   },
-  rowHeight: 60,          // Set default row height
-  headerHeight: 80,      // Set default header height
-  paginationPageSize: 8, // Set default pagination size
+  rowHeight: 60,          
+  headerHeight: 80,      
+  paginationPageSize: 8, 
 });
 
 
