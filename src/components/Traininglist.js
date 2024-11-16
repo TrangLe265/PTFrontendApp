@@ -40,10 +40,6 @@ export default function Traininglist(){
 
     useEffect(() => {handleFetchTrainings()}, []); 
 
-    const handleSearchChange = (event) => {
-        setSearchQuery(event.target.value);
-    }
-
     const handleFetchTrainings = async () => {
         try {
             const data = await fetchTrainings();
@@ -52,6 +48,10 @@ export default function Traininglist(){
         } catch (err) {
             console.error(err);
         }
+    }
+    
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value);
     }
 
     const handleDeleteTraining = (url) => {

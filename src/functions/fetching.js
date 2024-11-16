@@ -18,7 +18,34 @@ export const deleteCustomer = (url) => {
     .catch(err => console.error(err))
 }
 
-export const editCustomer = (id) => {}
+export const editCustomer = (url) => {
+    return fetch(url, {method: 'PUT'})
+    .catch(err => console.error(err));
+}
+
+export const saveCustomer = async (customer) => {
+    if (!customer){
+        console.error('There is no new customer to add.'); 
+        return; 
+    }
+    try {
+        const response = await fetch ('https://customer-rest-service-frontend-personaltrainer.2.rahtiapp.fi/api/customers',
+            {method: 'POST',
+            headers:{'Content-Type' : 'application/json' },
+            body: JSON.stringify(customer)
+        });
+
+        if (!response.ok){
+            console.error('Failed to save new customer', response.status)
+            return; 
+        }
+        
+        console.log('New customer saved successfully.')
+        return fetchCustomers(); 
+        } catch(error) {
+            console.error(error);
+        }
+}
 
 export const fetchTrainings = async() => {
     try {

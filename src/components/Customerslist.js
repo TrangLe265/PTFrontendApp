@@ -16,15 +16,25 @@ import Grid from '@mui/material/Grid2';
 
 import {fetchCustomers} from '../functions/fetching';
 import DeleteCustomerDialog from '../functions/DeleteCustomerDialog';
+import AddCustomerDialog from '../functions/AddCustomerDialog'; 
 
 
 export default function Customerlist(){
-    const [customer, setCustomer] = useState([]);  
+    const [customer, setCustomer] = useState({
+        "firstname": "",
+        "lastname": "",
+        "email": "",
+        "phone": "",
+        "streetaddress": "",
+        "postcode": "",
+        "city": ""
+    });  
     const [customers, setCustomers] = useState([]);
     const [selectedCustomer, setSelectedCustomer] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
 
-    const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
+    const[openAddDialog, setOpenAddDialog] = useState(false);
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
     const [columnDefs, setColumnDefs] = useState([
         {headerName:'Action', flex:3,
@@ -71,7 +81,7 @@ export default function Customerlist(){
     }
     
     const handleAddCustomer = () => {
-        return <></>
+        setOpenAddDialog(true); 
     }
 
     const handleConfirmDelete = (url) => {
@@ -132,6 +142,7 @@ export default function Customerlist(){
                 />
             </div>
             <DeleteCustomerDialog open={openDeleteDialog} setOpen={setOpenDeleteDialog} selectedCustomer={selectedCustomer} handleFetchCustomers={handleFetchCustomers} />
+            <AddCustomerDialog open={openAddDialog} setOpen={setOpenAddDialog} handleFetchCustomers={handleFetchCustomers} />
         </>
         
     )
