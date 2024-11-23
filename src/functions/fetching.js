@@ -101,12 +101,14 @@ export const addTraining = async (training) => {
             body: JSON.stringify(training)
         })
         if (!response.ok){
-            return console.log('Error in saving new training: '); 
+            console.log('Error in saving new training: '); 
         }
+
+        return response;
 
     } catch (error) {
         console.log('Error in saving new training: ', error);
-        return; 
+        return null; 
     }
 
 }

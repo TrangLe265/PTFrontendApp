@@ -7,6 +7,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'; 
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'; 
+import dayjs from 'dayjs';
 
 import { addTraining } from './fetching';
 
@@ -17,6 +21,9 @@ export default function AddTrainingDialog({open, setOpen,  selectedCustomer}) {
         "duration": "",
         "customer": "", 
     }); 
+
+    const [selectedDate, setSelectedDate] = useState(dayjs()); 
+
 
     useEffect(() => {
         //if prevTraining is not used then the link is not updated to the Training object
@@ -37,6 +44,15 @@ export default function AddTrainingDialog({open, setOpen,  selectedCustomer}) {
             [event.target.name] : event.target.value,
         }));
     };
+
+    const handleDateChange = (newDate) => {
+       setSelectedDate(newDate);  
+       const isoDate = selectedDate.toISOString(); 
+        setTraining((prevTraining) => ({
+                ...prevTraining, 
+                date: isoDate,
+            }))
+    }; 
 
     const handleAddTraining = async () => { 
         try {
@@ -72,17 +88,15 @@ export default function AddTrainingDialog({open, setOpen,  selectedCustomer}) {
                 <DialogContentText>
                     Please fill in the fields below
                 </DialogContentText>
-                <TextField id="date"
-                    autoFocus
-                    required
-                    margin="dense"
-                    name="date"
-                    value={training.date}
-                    onChange={e => handleInputChange(e)}
-                    label="Date"
-                    fullWidth
-                    variant="standard"
-                />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DateTimePicker
+                        label="Date"
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        renderInput= {(props) => <TextField {...props} fullWidth margin='dense/' variant="standard"required/>}
+                    />
+                </LocalizationProvider>
+            
                 <TextField id="activity"
                     required
                     margin="dense"
