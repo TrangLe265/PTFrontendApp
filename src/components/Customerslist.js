@@ -17,7 +17,8 @@ import Grid from '@mui/material/Grid2';
 import {fetchCustomers} from '../functions/fetching';
 import DeleteCustomerDialog from '../functions/DeleteCustomerDialog';
 import AddCustomerDialog from '../functions/AddCustomerDialog'; 
-
+import EditCustomerDialog from '../functions/EditCustomerDialog';
+import AddTrainingDialog from '../functions/AddTrainingDialog';
 
 export default function Customerlist(){
     const [customer, setCustomer] = useState({
@@ -29,15 +30,22 @@ export default function Customerlist(){
         "postcode": "",
         "city": ""
     });  
-    const [customers, setCustomers] = useState([]);
-    const [selectedCustomer, setSelectedCustomer] = useState(null);
-    const [searchQuery, setSearchQuery] = useState('');
 
-    const[openAddDialog, setOpenAddDialog] = useState(false);
+    const [customers, setCustomers] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [openAddDialog, setOpenAddDialog] = useState(false);
+
+    const [customerToDelete, setCustomerToDelete] = useState(null);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
+    const [customerToEdit, setCustomerToEdit] = useState(null); 
+    const [openEditDialog,setOpenEditDialog] = useState(false); 
+
+    const [openAddTrainingDialog, setOpenAddTrainingDialog] = useState(false); 
+    const [trainedCustomer, setTrainedCustomer] = useState(null); 
+
     const [columnDefs, setColumnDefs] = useState([
-        {headerName:'Action', flex:3,
+        {headerName:'Action', width: 300, sortable: false, editable: false, filterable: false,
         cellRenderer: params => (
         <div> 
             <IconButton 
@@ -49,10 +57,18 @@ export default function Customerlist(){
             <IconButton 
                 aria-label='edit' 
                 color='white' 
-                onClick={() => handleEditCustomer(params.data._links.self.href)}> 
+                onClick={() => handleEditCustomer(params.data)}> 
                 <EditIcon />    
             </IconButton>
-            <Button variant="text" onClick={() => handelAddTraining()}>Add training</Button>
+            <Button 
+                variant="text" 
+                onClick={() => {
+                    handleAddTraining(params.data);
+                    console.log(params.data); 
+                }}
+            >
+                Add training
+            </Button>
         </div>)      
     },
     {
@@ -85,17 +101,19 @@ export default function Customerlist(){
     }
 
     const handleConfirmDelete = (url) => {
-        setSelectedCustomer(url);
+        setCustomerToDelete(url);
         console.log(`Selected customer for deletion: ${url}`);
         setOpenDeleteDialog(true);
     }
 
-    const handleEditCustomer = (id) => {
-        return <></>
+    const handleEditCustomer = (customer) => {
+        setCustomerToEdit(customer); 
+        setOpenEditDialog(true); 
     }
 
-    const handelAddTraining = () => {   
-        return <></>
+    const handleAddTraining = (customer) => {   
+        setOpenAddTrainingDialog(true); 
+        setTrainedCustomer(customer);
     }
 
     const handleSearchChange = (event) => {
@@ -141,8 +159,28 @@ export default function Customerlist(){
                     }}
                 />
             </div>
-            <DeleteCustomerDialog open={openDeleteDialog} setOpen={setOpenDeleteDialog} selectedCustomer={selectedCustomer} handleFetchCustomers={handleFetchCustomers} />
-            <AddCustomerDialog open={openAddDialog} setOpen={setOpenAddDialog} handleFetchCustomers={handleFetchCustomers} />
+            <DeleteCustomerDialog 
+                open={openDeleteDialog} 
+                setOpen={setOpenDeleteDialog} 
+                selectedCustomer={customerToDelete} 
+                handleFetchCustomers={handleFetchCustomers} 
+            />
+            <AddCustomerDialog 
+                open={openAddDialog} 
+                setOpen={setOpenAddDialog} 
+                handleFetchCustomers={handleFetchCustomers} 
+            />
+            <EditCustomerDialog
+                open={openEditDialog} 
+                setOpen={setOpenEditDialog} 
+                selectedCustomer={customerToEdit} 
+                handleFetchCustomers={handleFetchCustomers} 
+            />
+            <AddTrainingDialog 
+                open={openAddTrainingDialog} 
+                setOpen={setOpenAddTrainingDialog}
+                selectedCustomer ={trainedCustomer}
+            />
         </>
         
     )
