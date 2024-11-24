@@ -19,7 +19,7 @@ export default function EditCustomerDialog({open, setOpen, selectedCustomer, han
         "postcode": "",
         "city": ""
     }); 
-    const [url, setUrl] = useState('null'); 
+    const [url, setUrl] = useState(null); 
 
     useEffect(() => {
         if(selectedCustomer){

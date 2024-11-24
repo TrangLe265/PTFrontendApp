@@ -8,14 +8,14 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import '../styling/index.css';
 
-import { Snackbar, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { TextField } from '@mui/material';
 import Box from '@mui/material/Box'; 
 import Grid from '@mui/material/Grid2';
 
 import DeleteTrainingDialog from '../functions/DeleteTrainingDialog';
 
-import {fetchTrainings,deleteTraining} from '../functions/fetching';
+import {fetchTrainings} from '../functions/fetching';
 
 export default function Traininglist(){
     

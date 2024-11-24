@@ -13,15 +13,16 @@ export default function DeleteCustomerDialog({open, setOpen, selectedCustomer, h
             return;
         }
         try {
-            await deleteCustomer(selectedCustomer); 
-            console.log(`Customer ${selectedCustomer} deleted successfully.`);
+            const response = await deleteCustomer(selectedCustomer); 
             setOpen(false);
             
             handleFetchCustomers(); 
-
-            setTimeout(() => {
-                window.alert("Customer deleted successfully.");
-            }, 300);    
+            if (response && response.ok){
+                setTimeout(() => {
+                    window.alert("Customer deleted successfully.");
+                }, 300);    
+            }
+            
         }catch (err) {
             console.error("Failed to delete customer:", err);
         }    
@@ -30,7 +31,7 @@ export default function DeleteCustomerDialog({open, setOpen, selectedCustomer, h
     return (
         <Dialog open={open}>
              <DialogTitle>
-                {"Continue with deleting this customer's information in the database?"}
+                {"Do you want to delete this customer's information in the database?"}
              </DialogTitle>
              <DialogActions>
                  <Button onClick={() => setOpen(false)}>Cancel</Button>

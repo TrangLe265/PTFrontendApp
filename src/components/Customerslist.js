@@ -3,6 +3,7 @@ import React, {useState,useEffect} from 'react';
 import IconButton from '@mui/material/Button'; 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
@@ -13,6 +14,8 @@ import { Button, Typography } from '@mui/material';
 import { TextField } from '@mui/material';
 import Box from '@mui/material/Box'; 
 import Grid from '@mui/material/Grid2';
+import Divider from '@mui/material/Divider';
+
 
 import {fetchCustomers} from '../functions/fetching';
 import DeleteCustomerDialog from '../functions/DeleteCustomerDialog';
@@ -31,6 +34,9 @@ export default function Customerlist(){
         "city": ""
     });  
 
+    //preparing GridAPI forCSV xpoert
+    const [gridApi,setGridApi] = useState(null);
+
     const [customers, setCustomers] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [openAddDialog, setOpenAddDialog] = useState(false);
@@ -45,7 +51,7 @@ export default function Customerlist(){
     const [trainedCustomer, setTrainedCustomer] = useState(null); 
 
     const [columnDefs, setColumnDefs] = useState([
-        {headerName:'Action', width: 300, sortable: false, editable: false, filterable: false,
+        {headerName:'Action', width: 300, sortable: false, editable: false, filterable: false, suppressCsvExport: true,
         cellRenderer: params => (
         <div> 
             <IconButton 
@@ -124,6 +130,14 @@ export default function Customerlist(){
         (customer) => customer.firstname.toLowerCase().includes(searchQuery.toLowerCase()) || customer.lastname.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+    const handleExportCustomers = () => {
+        if (gridApi){
+            gridApi.exportDataAsCsv(); 
+            window.alert('CSV file is downloaded!')
+        } else {
+            window.alert('Exporting unsuccessful')
+        }   
+    }
     return(
         <>
             <Box sx={{ flexGrow: 1 , marginBottom: '10px'}}>
@@ -144,7 +158,7 @@ export default function Customerlist(){
                         onClick={() => handleAddCustomer()}
                         style={{marginBottom:'10px'}}>
                             Add Customer
-                    </Button>     
+                    </Button> 
                 </Grid>
             </Box>
             <div className='ag-theme-quartz-dark' style={{height:'500px'}} >
@@ -155,10 +169,23 @@ export default function Customerlist(){
                     paginationAutoPageSize={true}
                     suppressCellFocus={true }
                     onGridReady={params => {
+                        setGridApi(params.api); 
                         params.api.sizeColumnsToFit();
                     }}
                 />
             </div>
+            
+            <Divider>
+                <Box display="flex" justifyContent="center" width="100%" marginTop={2}>
+                    <Button 
+                        variant="outlined" startIcon={<FileDownloadIcon  />} size='large'
+                        onClick={handleExportCustomers}
+                    >
+                        Export Customer Data
+                    </Button>
+                </Box>
+            </Divider>
+    
             <DeleteCustomerDialog 
                 open={openDeleteDialog} 
                 setOpen={setOpenDeleteDialog} 
