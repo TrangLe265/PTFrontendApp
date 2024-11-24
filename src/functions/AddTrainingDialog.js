@@ -85,7 +85,7 @@ export default function AddTrainingDialog({open, setOpen,  selectedCustomer}) {
                 {"Add New Training"}
              </DialogTitle>
              <DialogContent>
-                <DialogContentText>
+                <DialogContentText style={{marginBottom: '20px'}}>
                     Please fill in the fields below
                 </DialogContentText>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -93,7 +93,7 @@ export default function AddTrainingDialog({open, setOpen,  selectedCustomer}) {
                         label="Date"
                         value={selectedDate}
                         onChange={handleDateChange}
-                        renderInput= {(props) => <TextField {...props} fullWidth margin='dense/' variant="standard"required/>}
+                        renderInput= {(props) => <TextField {...props} fullWidth margin='dense/' variant="standard"required />}
                     />
                 </LocalizationProvider>
             

@@ -13,13 +13,17 @@ import { TextField } from '@mui/material';
 import Box from '@mui/material/Box'; 
 import Grid from '@mui/material/Grid2';
 
+import DeleteTrainingDialog from '../functions/DeleteTrainingDialog';
+
 import {fetchTrainings,deleteTraining} from '../functions/fetching';
 
 export default function Traininglist(){
     
     const [trainings, setTrainings] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+
     const [open, setOpen] = useState(false);
+    const [trainingToDelete, setTrainingToDelete] = useState(null); 
 
     const [columnsDefs, setColumnDefs] = useState([
         {headerName:'Action', flex:1,
@@ -55,14 +59,9 @@ export default function Traininglist(){
     }
 
     const handleDeleteTraining = (url) => {
-        if (window.confirm('Are you sure you want to delete this training?')) {
-            deleteTraining(url)
-            .then(() => {
-                handleFetchTrainings();
-                setOpen(true);
-            })
-            .catch((err) => console.error(err));
-        }
+        setTrainingToDelete(url);
+        console.log(`Selected customer for deletion: ${url}`); 
+        setOpen(true); 
     }
 
     const filteredTrainings = trainings.filter(
@@ -94,11 +93,11 @@ export default function Traininglist(){
                     suppressCellFocus={true }
                 />
             </div>
-            <Snackbar 
-                open = {open}
-                autoHideDuration={3000}
-                onClose = {() => setOpen(false)}
-                message = 'Training deleted successfully'
+            <DeleteTrainingDialog 
+                open={open}
+                setOpen={setOpen} 
+                selectedTraining={trainingToDelete} 
+                handleFetchTrainings={handleFetchTrainings}
             />
         </>
     )
