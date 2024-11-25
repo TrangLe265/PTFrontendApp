@@ -64,18 +64,29 @@ export const fetchTrainings = async() => {
         const trainings = data._embedded.trainings; 
 
         // Mapped all fetched trainings above to add the extra customer field 
-        const trainedCustomer = await Promise.all(trainings.map(
-            async (training) => {
-                const customerDataResponse = await fetch(training._links.customer.href); 
-                const trainingDate = training.date ? parseISO(training.date) : null ;
+        const trainedCustomer = await Promise.all(trainings.map( async (training) => {
+            try {
+                const customerDataResponse = await fetch(training._links.customer.href);
+                if (!customerDataResponse){
+                    console.log('Error in fetching customer data')
+                };
                 const customerData = await customerDataResponse.json(); 
+                const trainingDate = training.date ? parseISO(training.date) : null ;
+
                 return {
                     ...training, // Keeping all the previous data using spread operator
                     customer: `${customerData.firstname} ${customerData.lastname}`,
                     date: isValid(trainingDate) ? format(new Date(trainingDate), 'dd.MM.yyyy hh:mm a' ) : 'Invalid Date'
                 };
+            } catch (error) {
+                console.log('Error in fetching: ', error);
+                return {
+                    ...training,
+                    customer: 'Unknown Customer',
+                    date: 'Invalid Date',
+                };
             }
-        )); 
+        }));
         
         return trainedCustomer;
     } catch (error) {
@@ -83,6 +94,18 @@ export const fetchTrainings = async() => {
         return [];
     } 
 }
+
+export const fetchTrainingWithCustomer = async () => {
+    try {
+        const response = await fetch('https://customer-rest-service-frontend-personaltrainer.2.rahtiapp.fi/api/gettrainings');
+        const trainingWithCustomer = await response.json();
+        return trainingWithCustomer;
+    } catch (error) {
+        console.log('Error in fetching: ', error);
+        return [];
+    }
+}
+
 
 export const deleteTraining = (url) => {
     return fetch(url, {method: 'DELETE'})

@@ -1,7 +1,7 @@
 import React from 'react'; 
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
-import { fetchTrainings } from '../functions/fetching';
+import { fetchTrainingWithCustomer } from '../functions/fetching';
 import FullCalendar from '@fullcalendar/react'; 
 import dayGridPlugin from '@fullcalendar/daygrid' ;
 import timeGridPlugin from '@fullcalendar/timegrid'; 
@@ -14,18 +14,22 @@ export default function Calendarlist(){
   useEffect(() => {
     const fetchEvents = async() => {
       try {
-        const trainings = await fetchTrainings(); 
+        const trainings = await fetchTrainingWithCustomer(); 
         const formatEvents = trainings.map(training => {
-          const startDate = parse(training.date, "dd.MM.yyyy hh:mm a", new Date()); 
-          const endDate = addMinutes(startDate, training.duration);
+            if (!training.customer || !training.date || !training.duration) {
+              console.warn('Missing data')
+              return null;
+            }
+            const startDate = new Date(training.date); 
+            const endDate = addMinutes(startDate, training.duration);
 
-          return {
-            title: `${training.activity}/${training.customer}`,
-            start: format(startDate,"yyyy-MM-dd'T'HH:mm:ss"), 
-            end: format(endDate, "yyyy-MM-dd'T'HH:mm:ss" ),
-            allDay: false,
-          }
-        }); 
+            return {
+              title: `${training.activity}/${training.customer.firstname} ${training.customer.lastname}`,
+              start: format(startDate,"yyyy-MM-dd'T'HH:mm:ss"), 
+              end: format(endDate, "yyyy-MM-dd'T'HH:mm:ss" ),
+              allDay: false,
+            }
+        }).filter(event => event !== null); 
         setEvents(formatEvents);
         console.log('formatted events',formatEvents); 
       }catch(error){
@@ -36,7 +40,7 @@ export default function Calendarlist(){
     
   }, [])
   
-  useEffect(() => { console.log('Events to display', events); }, [events]);
+  useEffect(() => { console.log('Events to display', events); }, [events]); //force useEffect another time to make sure events are assigned
 
   return(
     <FullCalendar

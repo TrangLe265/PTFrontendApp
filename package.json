@@ -13,6 +13,7 @@
     "@fullcalendar/timegrid": "^6.1.15",
     "@mui/icons-material": "^6.1.6",
     "@mui/material": "^6.1.6",
+    "@mui/x-charts": "^7.22.3",
     "@mui/x-date-pickers": "^7.22.3",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -20,11 +21,14 @@
     "ag-grid-react": "^32.3.2",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
+    "lodash": "^4.17.21",
     "react": "^18.3.1",
     "react-datepicker": "^7.5.0",
     "react-dom": "^18.3.1",
+    "react-is": "^18.3.1",
     "react-router-dom": "^6.28.0",
     "react-scripts": "5.0.1",
+    "recharts": "^2.13.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

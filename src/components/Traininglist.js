@@ -64,8 +64,9 @@ export default function Traininglist(){
         setOpen(true); 
     }
 
-    const filteredTrainings = trainings.filter(
-        (training) => training.activity.toLowerCase().includes(searchQuery.toLowerCase()) || training.customer.toLowerCase().includes(searchQuery.toLowerCase()));
+    const filteredTrainings = trainings.filter((training) => 
+        (training.activity && training.activity.toLowerCase().includes(searchQuery.toLowerCase())) || 
+        (training.customer && training.customer.toLowerCase().includes(searchQuery.toLowerCase())));
 
     return(
         <> 
