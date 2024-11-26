@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/PTFrontendApp/static/css/main.aee790ca.css",
+    "main.js": "/PTFrontendApp/static/js/main.ed29961f.js",
+    "index.html": "/PTFrontendApp/index.html",
+    "main.aee790ca.css.map": "/PTFrontendApp/static/css/main.aee790ca.css.map",
+    "main.ed29961f.js.map": "/PTFrontendApp/static/js/main.ed29961f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.aee790ca.css",
+    "static/js/main.ed29961f.js"
+  ]
+}
