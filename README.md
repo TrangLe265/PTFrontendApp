@@ -21,6 +21,15 @@ This project is a React-based frontend application designed for a personal train
 * Utilizes the recharts library for creating the chart.
 * Data Aggregation: Uses the lodash library for grouping data and calculating sums.
 6. Deployment: available on [PTFrontendApp](https://trangle265.github.io/PTFrontendApp/)
+  
+  ![Homepage (1)](https://github.com/user-attachments/assets/59f5a4bb-6725-43d7-a310-34aa922d0bb2)
+  ![CustomerList](https://github.com/user-attachments/assets/6c7299c5-53db-481b-849a-702a372a5664)
+  ![ActivityChart](https://github.com/user-attachments/assets/e97f1b3c-23b4-4906-9717-eb75d3836baf)
+
+
+
+
+
 
 ## ✨ Library and Tools Used
 * React: Frontend framework for building UI components.
