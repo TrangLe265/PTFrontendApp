@@ -4,8 +4,6 @@ import { provideGlobalGridOptions } from 'ag-grid-community';
 import './styling/index.css';
 import App from './App';
 import CssBaseline from '@mui/material/CssBaseline';
-import reportWebVitals from './reportWebVitals';
-
 
 provideGlobalGridOptions({
   defaultColDef: {
@@ -32,5 +30,3 @@ root.render(
    
   </React.StrictMode>
 );
-
-reportWebVitals();
